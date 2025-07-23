@@ -1,272 +1,195 @@
-<!-- Save this as: templates/admin.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard | STC IISER TVM</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        :root {
-            --sidebar-bg: #2c3e50;
-            --main-bg: #ecf0f1;
-            --card-bg: #ffffff;
-            --primary-color: #3498db;
-            --text-dark: #34495e;
-            --text-light: #ecf0f1;
-            --alert-success-bg: #d4edda;
-            --alert-success-text: #155724;
-        }
-        body {
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            background-color: var(--main-bg);
-            display: flex;
-        }
-        .sidebar {
-            width: 250px;
-            background: var(--sidebar-bg);
-            color: var(--text-light);
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            position: fixed;
-        }
-        .sidebar-header {
-            padding: 20px;
-            text-align: center;
-            border-bottom: 1px solid #34495e;
-        }
-        .sidebar-header h2 {
-            margin: 0;
-        }
-        .sidebar-nav {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            flex-grow: 1;
-        }
-        .sidebar-nav li a {
-            display: block;
-            padding: 15px 20px;
-            color: var(--text-light);
-            text-decoration: none;
-            transition: background 0.3s;
-        }
-        .sidebar-nav li a:hover, .sidebar-nav li a.active {
-            background: var(--primary-color);
-        }
-        .sidebar-nav li a i {
-            margin-right: 10px;
-        }
-        .logout {
-            border-top: 1px solid #34495e;
-        }
-        .main-content {
-            margin-left: 250px;
-            flex-grow: 1;
-            padding: 30px;
-        }
-        .main-content h1 {
-            color: var(--text-dark);
-            margin-bottom: 20px;
-        }
-        .dashboard-section {
-            background: var(--card-bg);
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            margin-bottom: 30px;
-        }
-        .dashboard-section h2 {
-            margin-top: 0;
-            color: var(--text-dark);
-            border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--text-dark);
-        }
-        .form-group input[type="text"],
-        .form-group input[type="date"],
-        .form-group textarea,
-        .form-group input[type="file"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 14px;
-        }
-        textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-        .btn-submit {
-            padding: 12px 20px;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .btn-submit:hover {
-            background-color: #2980b9;
-        }
-        .alert-success {
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 4px;
-            background-color: var(--alert-success-bg);
-            color: var(--alert-success-text);
-            border: 1px solid transparent;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard | STC IISER TVM</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <style>
+    body { font-family: 'Poppins', sans-serif; background: #f4f6f9; margin: 0; padding: 20px; }
+    h1 { color: #2c3e50; }
+    .dashboard-section { background: #fff; padding: 20px; margin-bottom: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .dashboard-section h2 { color: #34495e; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 5px; }
+    .form-group input, .form-group textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+    .btn-submit { background: #3498db; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
+    .btn-delete { background: #e74c3c; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; margin-left: 10px; }
+    ul.item-list { list-style: none; padding: 0; margin-top: 15px; }
+    ul.item-list li { margin-bottom: 10px; }
+    form.inline-form { display: inline; }
+    .alert-success { background: #d4edda; color: #155724; padding: 10px; margin-bottom: 15px; border-radius: 4px; }
+  </style>
 </head>
 <body>
 
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <h2>STC Admin</h2>
-        </div>
-        <ul class="sidebar-nav">
-            <li><a href="#" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-            <li><a href="#manage-updates"><i class="fas fa-newspaper"></i> Manage Updates</a></li>
-            <li><a href="#manage-clubs"><i class="fas fa-users-cog"></i> Manage Clubs</a></li>
-            <li><a href="#manage-blog"><i class="fas fa-blog"></i> Manage Blog</a></li>
-            <li><a href="#manage-gallery"><i class="fas fa-images"></i> Manage Gallery</a></li>
-            <li><a href="#manage-events"><i class="fas fa-calendar-alt"></i> Manage Events</a></li>
-        </ul>
-        <div class="logout">
-            <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
-        </div>
-    </aside>
+  <h1 style="color: red;">THIS IS UPDATED ADMIN PANEL</h1>
 
-    <main class="main-content">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    {% if category == 'success' %}
-                        <div class="alert-success">{{ message }}</div>
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        {% if category == 'success' %}
+          <div class="alert-success">{{ message }}</div>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
 
-        <h1>Dashboard</h1>
-        <p>Welcome, Admin! Manage your website content from here.</p>
+  <!-- UPDATES -->
+  <section class="dashboard-section">
+    <h2>Manage Updates</h2>
+    <form method="POST" action="{{ url_for('add_update') }}" enctype="multipart/form-data">
+      <div class="form-group">
+        <label>Update Title</label>
+        <input type="text" name="update-title" required>
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea name="update-description" required></textarea>
+      </div>
+      <div class="form-group">
+        <label>Date</label>
+        <input type="date" name="update-date" required>
+      </div>
+      <div class="form-group">
+        <label>Image</label>
+        <input type="file" name="update-image">
+      </div>
+      <button type="submit" class="btn-submit">Add Update</button>
+    </form>
+    <ul class="item-list">
+      {% for update in updates %}
+      <li>
+        <strong>{{ update.title }}</strong> – {{ update.date }}
+        <form method="POST" action="{{ url_for('delete_update', id=update.id) }}" class="inline-form">
+          <button class="btn-delete" onclick="return confirm('Delete this update?')">Delete</button>
+        </form>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
 
-        <section class="dashboard-section" id="manage-updates">
-            <h2><i class="fas fa-newspaper"></i> Manage Updates & News</h2>
-            <form method="POST" action="{{ url_for('add_update') }}" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="update-title">Update Title</label>
-                    <input type="text" id="update-title" name="update-title" placeholder="e.g., 14th Convocation Ceremony" required>
-                </div>
-                <div class="form-group">
-                    <label for="update-description">Description</label>
-                    <textarea id="update-description" name="update-description" placeholder="Enter the details of the update..." required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="update-date">Date</label>
-                    <input type="date" id="update-date" name="update-date" required>
-                </div>
-                <div class="form-group">
-                    <label for="update-image">Image</label>
-                    <input type="file" id="update-image" name="update-image">
-                </div>
-                <button type="submit" class="btn-submit">Add Update</button>
-            </form>
-        </section>
+  <!-- CLUBS -->
+  <section class="dashboard-section">
+    <h2>Manage Clubs</h2>
+    <form method="POST" action="{{ url_for('add_club') }}" enctype="multipart/form-data">
+      <div class="form-group">
+        <label>Club Name</label>
+        <input type="text" name="club-name" required>
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea name="club-description" required></textarea>
+      </div>
+      <div class="form-group">
+        <label>Image</label>
+        <input type="file" name="club-image">
+      </div>
+      <button type="submit" class="btn-submit">Add Club</button>
+    </form>
+    <ul class="item-list">
+      {% for club in clubs %}
+      <li>
+        <strong>{{ club.name }}</strong>
+        <form method="POST" action="{{ url_for('delete_club', id=club.id) }}" class="inline-form">
+          <button class="btn-delete" onclick="return confirm('Delete this club?')">Delete</button>
+        </form>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
 
-        <section class="dashboard-section" id="manage-clubs">
-            <h2><i class="fas fa-users-cog"></i> Manage Clubs</h2>
-            <form method="POST" action="{{ url_for('add_club') }}" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="club-name">Club Name</label>
-                    <input type="text" id="club-name" name="club-name" placeholder="e.g., Robotics Club" required>
-                </div>
-                <div class="form-group">
-                    <label for="club-description">Description</label>
-                    <textarea id="club-description" name="club-description" placeholder="Enter a short description of the club..." required></textarea>
-                </div>
-                 <div class="form-group">
-                    <label for="club-image">Image</label>
-                    <input type="file" id="club-image" name="club-image">
-                </div>
-                <button type="submit" class="btn-submit">Add Club</button>
-            </form>
-        </section>
-        
-        <section class="dashboard-section" id="manage-blog">
-            <h2><i class="fas fa-blog"></i> Manage Blog</h2>
-            <form method="POST" action="{{ url_for('add_blog') }}" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="blog-title">Post Title</label>
-                    <input type="text" id="blog-title" name="blog-title" placeholder="e.g., The Future of AI in Research" required>
-                </div>
-                <div class="form-group">
-                    <label for="blog-content">Content</label>
-                    <textarea id="blog-content" name="blog-content" placeholder="Write your blog post here..." required></textarea>
-                </div>
-                 <div class="form-group">
-                    <label for="blog-image">Header Image</label>
-                    <input type="file" id="blog-image" name="blog-image">
-                </div>
-                <button type="submit" class="btn-submit">Publish Post</button>
-            </form>
-        </section>
+  <!-- BLOG POSTS -->
+  <section class="dashboard-section">
+    <h2>Manage Blog Posts</h2>
+    <form method="POST" action="{{ url_for('add_blog') }}" enctype="multipart/form-data">
+      <div class="form-group">
+        <label>Post Title</label>
+        <input type="text" name="blog-title" required>
+      </div>
+      <div class="form-group">
+        <label>Content</label>
+        <textarea name="blog-content" required></textarea>
+      </div>
+      <div class="form-group">
+        <label>Header Image</label>
+        <input type="file" name="blog-image">
+      </div>
+      <button type="submit" class="btn-submit">Publish Post</button>
+    </form>
+    <ul class="item-list">
+      {% for post in posts %}
+      <li>
+        <strong>{{ post.title }}</strong>
+        <form method="POST" action="{{ url_for('delete_blog', id=post.id) }}" class="inline-form">
+          <button class="btn-delete" onclick="return confirm('Delete this post?')">Delete</button>
+        </form>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
 
-        <section class="dashboard-section" id="manage-gallery">
-            <h2><i class="fas fa-images"></i> Manage Gallery</h2>
-            <form method="POST" action="{{ url_for('add_gallery_image') }}" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="gallery-image">Upload Image</label>
-                    <input type="file" id="gallery-image" name="gallery-image" required>
-                </div>
-                <div class="form-group">
-                    <label for="gallery-caption">Caption (Optional)</label>
-                    <input type="text" id="gallery-caption" name="gallery-caption" placeholder="A brief description of the image...">
-                </div>
-                <button type="submit" class="btn-submit">Add Image</button>
-            </form>
-        </section>
+  <!-- GALLERY -->
+  <section class="dashboard-section">
+    <h2>Manage Gallery</h2>
+    <form method="POST" action="{{ url_for('add_gallery_image') }}" enctype="multipart/form-data">
+      <div class="form-group">
+        <label>Image</label>
+        <input type="file" name="gallery-image" required>
+      </div>
+      <div class="form-group">
+        <label>Caption</label>
+        <input type="text" name="gallery-caption">
+      </div>
+      <button type="submit" class="btn-submit">Add Image</button>
+    </form>
+    <ul class="item-list">
+      {% for img in gallery_images %}
+      <li>
+        <strong>{{ img.caption or 'Untitled Image' }}</strong>
+        <form method="POST" action="{{ url_for('delete_gallery', id=img.id) }}" class="inline-form">
+          <button class="btn-delete" onclick="return confirm('Delete this image?')">Delete</button>
+        </form>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
 
-        <section class="dashboard-section" id="manage-events">
-            <h2><i class="fas fa-calendar-alt"></i> Manage Events</h2>
-            <form method="POST" action="{{ url_for('add_event') }}">
-                <div class="form-group">
-                    <label for="event-title">Event Title</label>
-                    <input type="text" id="event-title" name="event-title" placeholder="e.g., Annual Hackathon" required>
-                </div>
-                <div class="form-group">
-                    <label for="event-description">Description</label>
-                    <textarea id="event-description" name="event-description" placeholder="Enter the details of the event..." required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="event-date">Date</label>
-                    <input type="text" id="event-date" name="event-date" placeholder="e.g., October 25-27, 2025" required>
-                </div>
-                 <div class="form-group">
-                    <label for="event-location">Location</label>
-                    <input type="text" id="event-location" name="event-location" placeholder="e.g., IISER TVM Campus" required>
-                </div>
-                <button type="submit" class="btn-submit">Add Event</button>
-            </form>
-        </section>
-
-    </main>
+  <!-- EVENTS -->
+  <section class="dashboard-section">
+    <h2>Manage Events</h2>
+    <form method="POST" action="{{ url_for('add_event') }}">
+      <div class="form-group">
+        <label>Event Title</label>
+        <input type="text" name="event-title" required>
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea name="event-description" required></textarea>
+      </div>
+      <div class="form-group">
+        <label>Date</label>
+        <input type="text" name="event-date" required>
+      </div>
+      <div class="form-group">
+        <label>Location</label>
+        <input type="text" name="event-location" required>
+      </div>
+      <button type="submit" class="btn-submit">Add Event</button>
+    </form>
+    <ul class="item-list">
+      {% for event in events %}
+      <li>
+        <strong>{{ event.title }}</strong> – {{ event.date }}
+        <form method="POST" action="{{ url_for('delete_event', id=event.id) }}" class="inline-form">
+          <button class="btn-delete" onclick="return confirm('Delete this event?')">Delete</button>
+        </form>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
 
 </body>
 </html>
