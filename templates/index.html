@@ -2,211 +2,182 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>STC | IISER TVM - Innovate, Explore, Discover</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style5.css') }}" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>STC | IISER TVM - Innovate, Explore, Discover</title>
+    <!-- Assuming you have a style5.css file in your static folder -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style5.css') }}" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Basic styling for demonstration if style5.css is not available */
+        body { font-family: 'Poppins', sans-serif; margin: 0; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .main-header { padding: 20px 0; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .section { padding: 60px 0; }
+        .bg-light { background-color: #f4f6f9; }
+        h1, h2, h3 { color: #34495e; }
+        .btn { display: inline-block; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: 600; transition: all 0.3s ease; }
+        .btn-primary { background-color: #3498db; color: #fff; }
+        .btn-primary:hover { background-color: #2980b9; }
+        .blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .blog-post-card { background: #fff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); overflow: hidden; }
+        .blog-post-card img { width: 100%; height: 200px; object-fit: cover; }
+        .blog-content { padding: 25px; }
+        .blog-content h3 { margin-top: 0; }
+        .read-more { color: #3498db; text-decoration: none; font-weight: 600; }
+        .blog-date { display: block; margin-top: 15px; color: #7f8c8d; font-size: 14px; }
+        .main-footer { background: #2c3e50; color: #ecf0f1; padding: 40px 0; text-align: center; }
+    </style>
 </head>
 <body>
-  <header class="main-header">
-    <div class="container">
-      <div class="logo">
-        <h1>STC <span class="highlight">IISER TVM</span></h1>
-        <p>Science and Technology Council of IISER Thiruvananthapuram</p>
-      </div>
-      <nav class="main-nav">
-        <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#updates">Updates</a></li>
-          <li><a href="#gallery">Gallery</a></li>
-          <li><a href="#clubs">Clubs</a></li>
-          <li><a href="#events">Events</a></li>
-          <li><a href="#blog">Blog</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-
-  <section class="hero-section" id="home">
-    <div class="hero-content fade-in-up">
-      <h1>Igniting Innovation, Fostering Discovery</h1>
-      <p>The hub for scientific thinking, interdisciplinary collaboration, and technological advancement at IISER TVM.</p>
-      <a href="#clubs" class="btn btn-primary animate-btn">Explore Our Clubs</a>
-      <a href="#events" class="btn btn-secondary animate-btn">Upcoming Events</a>
-    </div>
-  </section>
-
-  <section class="section fade-in-section" id="about">
-    <div class="container">
-      <h2>About STC</h2>
-      <div class="about-content">
-        <div class="about-text fade-in-left">
-          <p>The Science and Technology Council (STC) at IISER TVM is the vibrant epicenter for students passionate about pushing the boundaries of knowledge. We are dedicated to cultivating a dynamic environment that promotes scientific inquiry, innovative problem-solving, and robust interdisciplinary collaboration.</p>
-          <p>Through a diverse array of student-run clubs and engaging activities, STC coordinates initiatives spanning fundamental sciences, cutting-edge engineering, and emerging technologies. Our mission is to empower students to transform theoretical understanding into practical application, fostering a community where ideas flourish and future leaders are forged.</p>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <h1>STC <span class="highlight">IISER TVM</span></h1>
+                <p>Science and Technology Council of IISER Thiruvananthapuram</p>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#updates">Updates</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#clubs">Clubs</a></li>
+                    <li><a href="#events">Events</a></li>
+                    <li><a href="#blog">Blog</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
         </div>
-        <div class="about-image fade-in-right">
-          <img src="{{ url_for('static', filename='image/SNT_Logo[1].png') }}" alt="Students collaborating in a lab setting" onerror="this.onerror=null;this.src='https://placehold.co/600x400/212121/ffffff?text=Science+Collaboration';">
+    </header>
+
+    <section class="hero-section" id="home">
+        <div class="hero-content">
+            <h1>Igniting Innovation, Fostering Discovery</h1>
+            <p>The hub for scientific thinking, interdisciplinary collaboration, and technological advancement at IISER TVM.</p>
+            <a href="#clubs" class="btn btn-primary">Explore Our Clubs</a>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section bg-light fade-in-section" id="updates">
-    <div class="container">
-      <h2>Latest Updates & News</h2>
-      <div class="updates-grid">
-        {% for update in updates %}
-        <div class="update-card slide-up-card">
-          {% if update.image_file %}
-            <img src="{{ url_for('static', filename='image/' + update.image_file) }}" alt="{{ update.title }}">
-          {% else %}
-            <img src="https://placehold.co/400x250/212121/ffffff?text=Update" alt="Update Image">
-          {% endif %}
-          <div class="update-content">
-            <h3>{{ update.title }}</h3>
-            <p>{{ update.description }}</p>
-            <span class="update-date"><i class="far fa-calendar-alt"></i> {{ update.date }}</span>
-          </div>
+    <section class="section" id="about">
+        <div class="container">
+            <h2>About STC</h2>
+            <p>The Science and Technology Council (STC) at IISER TVM is the vibrant epicenter for students passionate about pushing the boundaries of knowledge. We are dedicated to cultivating a dynamic environment that promotes scientific inquiry, innovative problem-solving, and robust interdisciplinary collaboration.</p>
         </div>
-        {% else %}
-          <p style="text-align: center;">No updates have been posted yet.</p>
-        {% endfor %}
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- DYNAMIC GALLERY SECTION -->
-  <section class="section fade-in-section" id="gallery">
-    <div class="container">
-      <h2>Moments of Discovery & Collaboration</h2>
-      <div class="gallery-grid">
-        {% for image in gallery_images %}
-        <div class="gallery-item slide-up-card">
-          <!-- Assumes you save uploaded images in static/image -->
-          <img src="{{ url_for('static', filename='image/' + image.filename) }}" alt="{{ image.caption }}" onerror="this.onerror=null;this.src='https://placehold.co/400x300/212121/ffffff?text=Image+Not+Found';">
+    <section class="section bg-light" id="updates">
+        <div class="container">
+            <h2>Latest Updates & News</h2>
+            <div class="updates-grid">
+                {% for update in updates %}
+                <div class="update-card">
+                    {% if update.image_file %}<img src="{{ url_for('static', filename='image/' + update.image_file) }}" alt="{{ update.title }}">{% endif %}
+                    <div class="update-content">
+                        <h3>{{ update.title }}</h3>
+                        <p>{{ update.description }}</p>
+                        <span class="update-date"><i class="far fa-calendar-alt"></i> {{ update.date }}</span>
+                    </div>
+                </div>
+                {% else %}
+                <p>No updates have been posted yet.</p>
+                {% endfor %}
+            </div>
         </div>
-        {% else %}
-        <p style="text-align: center;">No images have been added to the gallery yet.</p>
-        {% endfor %}
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section bg-light fade-in-section" id="clubs">
-    <div class="container">
-      <h2>Our Dynamic Clubs</h2>
-      <div class="clubs-grid">
-        {% for club in clubs %}
-        <div class="club-card slide-up-card">
-          {% if club.image_file %}
-            <img src="{{ url_for('static', filename='image/' + club.image_file) }}" alt="{{ club.name }}">
-          {% else %}
-            <img src="https://placehold.co/400x250/2c3e50/ffffff?text={{ club.name | replace(' ', '+') }}" alt="{{ club.name }}">
-          {% endif %}
-          <div class="club-content">
-            <h3><i class="fas fa-users"></i> {{ club.name }}</h3>
-            <p>{{ club.description }}</p>
-          </div>
+    <section class="section" id="gallery">
+        <div class="container">
+            <h2>Moments of Discovery</h2>
+            <div class="gallery-grid">
+                {% for image in gallery_images %}
+                <div class="gallery-item">
+                    <img src="{{ url_for('static', filename='image/' + image.filename) }}" alt="{{ image.caption }}">
+                </div>
+                {% else %}
+                <p>No images have been added to the gallery yet.</p>
+                {% endfor %}
+            </div>
         </div>
-        {% else %}
-        <p style="text-align: center;">No clubs have been added yet.</p>
-        {% endfor %}
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- DYNAMIC EVENTS SECTION -->
-  <section class="section fade-in-section" id="events">
-    <div class="container">
-      <h2>Upcoming Events</h2>
-      <div class="events-grid">
-        {% for event in events %}
-        <div class="event-card slide-up-card">
-          <img src="https://placehold.co/400x250/3498db/ffffff?text=Event" alt="Event Image">
-          <div class="event-content">
-            <h3>{{ event.title }}</h3>
-            <p>{{ event.description }}</p>
-            <span class="event-date"><i class="far fa-calendar-alt"></i> {{ event.date }}</span>
-            <span class="event-location"><i class="fas fa-map-marker-alt"></i> {{ event.location }}</span>
-          </div>
+    <section class="section bg-light" id="clubs">
+        <div class="container">
+            <h2>Our Dynamic Clubs</h2>
+            <div class="clubs-grid">
+                {% for club in clubs %}
+                <div class="club-card">
+                    {% if club.image_file %}<img src="{{ url_for('static', filename='image/' + club.image_file) }}" alt="{{ club.name }}">{% endif %}
+                    <div class="club-content">
+                        <h3>{{ club.name }}</h3>
+                        <p>{{ club.description }}</p>
+                    </div>
+                </div>
+                {% else %}
+                <p>No clubs have been added yet.</p>
+                {% endfor %}
+            </div>
         </div>
-        {% else %}
-        <p style="text-align: center;">No upcoming events have been posted yet.</p>
-        {% endfor %}
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section bg-light fade-in-section" id="blog">
-    <div class="container">
-      <h2>Insights from Our Blog</h2>
-      <div class="blog-grid">
-        {% for post in posts %}
-        <div class="blog-post-card slide-up-card">
-          {% if post.image_file %}
-            <img src="{{ url_for('static', filename='image/' + post.image_file) }}" alt="{{ post.title }}">
-          {% else %}
-            <img src="https://placehold.co/400x250/34495e/ffffff?text=Blog+Post" alt="Blog Post Image">
-          {% endif %}
-          <div class="blog-content">
-            <h3>{{ post.title }}</h3>
-            <p>{{ post.content | truncate(150) }}</p>
-            <a href="{{ url_for('view_blog', id=post.id) }}" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-
-            <span class="blog-date"><i class="far fa-calendar-alt"></i> {{ post.date_posted.strftime('%B %d, %Y') }}</span>
-          </div>
+    <section class="section" id="events">
+        <div class="container">
+            <h2>Upcoming Events</h2>
+            <div class="events-grid">
+                {% for event in events %}
+                <div class="event-card">
+                    <h3>{{ event.title }}</h3>
+                    <p>{{ event.description }}</p>
+                    <span class="event-date"><i class="far fa-calendar-alt"></i> {{ event.date }}</span>
+                    <span class="event-location"><i class="fas fa-map-marker-alt"></i> {{ event.location }}</span>
+                </div>
+                {% else %}
+                <p>No upcoming events have been posted yet.</p>
+                {% endfor %}
+            </div>
         </div>
-        {% else %}
-        <p style="text-align: center;">No blog posts have been published yet.</p>
-        {% endfor %}
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section fade-in-section" id="contact">
-    <div class="container">
-      <h2>Get in Touch</h2>
-      <p class="contact-intro">Have questions, suggestions, or want to collaborate? Reach out to us!</p>
-      <div class="contact-info">
-        <p><i class="fas fa-envelope"></i> Email: <a href="mailto:stc@iisertvm.ac.in">stc@iisertvm.ac.in</a></p>
-        <p><i class="fas fa-map-marker-alt"></i> Address: IISER Thiruvananthapuram, Maruthamala P.O., Vithura, Thiruvananthapuram - 695551, Kerala, India.</p>
-      </div>
-      <div class="social-media">
-        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
-      </div>
-    </div>
-  </section>
+    <!-- Corrected and Updated Blog Section -->
+    <section class="section bg-light" id="blog">
+        <div class="container">
+            <h2>Insights from Our Blog</h2>
+            <div class="blog-grid">
+                {% for post in posts %}
+                <div class="blog-post-card">
+                    {% if post.image_file %}
+                        <img src="{{ url_for('static', filename='image/' + post.image_file) }}" alt="{{ post.title }}">
+                    {% endif %}
+                    <div class="blog-content">
+                        <h3>{{ post.title }}</h3>
+                        <p>{{ post.content | truncate(150, true) }}</p> <!-- Truncates content to 150 chars -->
+                        <!-- CORRECTED "Read More" LINK -->
+                        <a href="{{ url_for('view_blog', id=post.id) }}" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                        <span class="blog-date"><i class="far fa-calendar-alt"></i> {{ post.date_posted.strftime('%B %d, %Y') }}</span>
+                    </div>
+                </div>
+                {% else %}
+                <p>No blog posts have been published yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
 
-  <footer class="main-footer">
-    <div class="container">
-      <p>&copy; 2025 Science and Technology Council, IISER Thiruvananthapuram. All rights reserved.</p>
-      <p>Designed with <i class="fas fa-heart"></i> by STC Team. | <a href="{{ url_for('login') }}" style="color: #aaa; text-decoration: none;">Admin Panel</a></p>
-    </div>
-  </footer>
+    <section class="section" id="contact">
+        <div class="container">
+            <h2>Get in Touch</h2>
+            <p>Have questions or want to collaborate? Reach out to us!</p>
+            <p><i class="fas fa-envelope"></i> Email: <a href="mailto:stc@iisertvm.ac.in">stc@iisertvm.ac.in</a></p>
+        </div>
+    </section>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const animatedElements = document.querySelectorAll('.fade-in-section, .slide-up-card');
-        const observer = new IntersectionObserver(function(entries, observer) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
-        animatedElements.forEach(element => {
-            observer.observe(element);
-        });
-    });
-  </script>
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2025 Science and Technology Council, IISER Thiruvananthapuram. All rights reserved.</p>
+            <p><a href="{{ url_for('login') }}" style="color: #aaa; text-decoration: none;">Admin Panel</a></p>
+        </div>
+    </footer>
 
 </body>
 </html>
