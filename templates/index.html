@@ -60,13 +60,23 @@
         </div>
     </section>
 
-    <section class="section" id="about">
-        <div class="container">
-            <h2>About STC</h2>
-            <p>The Science and Technology Council (STC) at IISER TVM is the vibrant epicenter for students passionate about pushing the boundaries of knowledge. We are dedicated to cultivating a dynamic environment that promotes scientific inquiry, innovative problem-solving, and robust interdisciplinary collaboration.</p>
-        </div>
-    </section>
-
+    <!-- START: Replace your existing #about section with this -->
+<section class="section" id="about">
+  <div class="container">
+    <h2>About STC</h2>
+    <div class="about-content" style="display: flex; align-items: center; gap: 40px;">
+      <div class="about-text" style="flex: 1;">
+        <p>The Science and Technology Council (STC) at IISER TVM is the vibrant epicenter for students passionate about pushing the boundaries of knowledge. We are dedicated to cultivating a dynamic environment that promotes scientific inquiry, innovative problem-solving, and robust interdisciplinary collaboration.</p>
+        <p>Through a diverse array of student-run clubs and engaging activities, STC coordinates initiatives spanning fundamental sciences, cutting-edge research, and emerging technologies.</p>
+      </div>
+      <div class="about-image" style="flex: 1; text-align: center;">
+        <!-- This is the line that adds your logo -->
+        <img src="{{ url_for('static', filename='image/stc_logo.png') }}" alt="STC IISER TVM Logo" style="max-width: 300px; border-radius: 8px;">
+      </div>
+    </div>
+  </div>
+</section>
+<!-- END: End of the new #about section -->
     <section class="section bg-light" id="updates">
         <div class="container">
             <h2>Latest Updates & News</h2>
