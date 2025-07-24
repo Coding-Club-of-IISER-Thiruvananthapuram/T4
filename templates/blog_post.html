@@ -1,184 +1,248 @@
+<!-- Save this as: templates/blog_post.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>{{ post.title }} | STC Blog</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta property="og:title" content="{{ post.title }}">
-  <meta property="og:image" content="{{ url_for('static', filename='image/' + post.image_file) if post.image_file else '' }}">
-  <meta property="og:description" content="{{ post.content[:150] }}">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: #f4f6f9;
-      max-width: 850px;
-      margin: 40px auto;
-      padding: 30px;
-      color: #2c3e50;
-      line-height: 1.7;
-    }
+    <meta charset="UTF-8">
+    <title>{{ post.title }} | STC Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Social Media Meta Tags -->
+    <meta property="og:title" content="{{ post.title }}">
+    <meta property="og:description" content="{{ post.content | striptags | truncate(150) }}">
+    {% if post.image_file %}
+    <meta property="og:image" content="{{ url_for('static', filename='image/' + post.image_file, _external=True) }}">
+    {% endif %}
+    <meta property="og:url" content="{{ request.url }}">
+    <meta name="twitter:card" content="summary_large_image">
 
-    h1 {
-      font-size: 32px;
-      margin-bottom: 10px;
-    }
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --text-dark: #2c3e50;
+            --text-light: #555;
+            --bg-light: #f8f9fa;
+            --card-bg: #ffffff;
+            --border-color: #dfe4ea;
+        }
+        body {
+            font-family: 'Lora', serif;
+            background-color: var(--bg-light);
+            color: var(--text-light);
+            line-height: 1.8;
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        .post-header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0 0 10px 0;
+            line-height: 1.2;
+        }
+        .post-meta {
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+        .post-image {
+            width: 100%;
+            height: auto;
+            max-height: 450px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .post-content {
+            font-size: 18px;
+        }
+        .post-content p {
+            margin-bottom: 1.5em;
+        }
+        .post-content a {
+            color: var(--primary-color);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--primary-color);
+        }
+        .post-content a:hover {
+            color: #2980b9;
+            border-bottom-style: solid;
+        }
+        .section-divider {
+            border: 0;
+            height: 1px;
+            background-color: var(--border-color);
+            margin: 50px 0;
+        }
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-dark);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .share-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        .share-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            transition: transform 0.2s;
+        }
+        .share-btn:hover {
+            transform: translateY(-2px);
+        }
+        .share-btn i {
+            margin-right: 10px;
+        }
+        .twitter { background-color: #1DA1F2; }
+        .whatsapp { background-color: #25D366; }
+        .linkedin { background-color: #0A66C2; }
 
-    .post-date {
-      font-size: 14px;
-      color: #888;
-      margin-bottom: 20px;
-    }
-
-    .post-image {
-      width: 100%;
-      max-height: 400px;
-      object-fit: cover;
-      border-radius: 8px;
-      margin-bottom: 25px;
-    }
-
-    .post-content {
-      margin-bottom: 40px;
-      white-space: pre-line;
-    }
-
-    .back-link {
-      display: inline-block;
-      margin-top: 20px;
-      text-decoration: none;
-      color: #3498db;
-      font-weight: 500;
-    }
-
-    .share-section {
-      margin-top: 40px;
-      border-top: 1px solid #ddd;
-      padding-top: 20px;
-    }
-
-    .share-buttons a {
-      display: inline-block;
-      margin-right: 10px;
-      background: #3498db;
-      color: white;
-      padding: 8px 12px;
-      border-radius: 4px;
-      text-decoration: none;
-      font-size: 14px;
-    }
-
-    .share-buttons a:hover {
-      background: #2c80b4;
-    }
-
-    .related-section {
-      margin-top: 60px;
-    }
-
-    .related-section h3 {
-      margin-bottom: 20px;
-    }
-
-    .related-posts {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-
-    .related-post {
-      flex: 1;
-      min-width: 220px;
-      background: #fff;
-      padding: 15px;
-      border-radius: 6px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    }
-
-    .related-post h4 {
-      margin-top: 0;
-      font-size: 18px;
-    }
-
-    .comment-section {
-      margin-top: 50px;
-    }
-
-    .comment-section h3 {
-      margin-bottom: 15px;
-    }
-
-    .comment-box textarea {
-      width: 100%;
-      padding: 10px;
-      min-height: 100px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      margin-bottom: 10px;
-      font-family: inherit;
-      font-size: 15px;
-    }
-
-    .comment-box button {
-      background-color: #27ae60;
-      color: white;
-      padding: 8px 16px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .comment-box button:hover {
-      background-color: #219150;
-    }
-  </style>
+        .related-posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        .related-post-card {
+            background: var(--bg-light);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            text-decoration: none;
+            color: var(--text-dark);
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+        .related-post-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+        .related-post-card h4 {
+            font-family: 'Poppins', sans-serif;
+            margin: 0 0 10px 0;
+            font-size: 18px;
+        }
+        .related-post-card p {
+            font-family: 'Lora', serif;
+            font-size: 15px;
+            margin: 0;
+            color: var(--text-light);
+        }
+        .comment-box {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .comment-box textarea {
+            width: 100%;
+            padding: 15px;
+            min-height: 120px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-family: inherit;
+            font-size: 16px;
+        }
+        .comment-box button {
+            display: block;
+            margin-left: auto;
+            background-color: #95a5a6;
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 4px;
+            cursor: not-allowed;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 50px;
+            text-decoration: none;
+            color: var(--primary-color);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
 
-  <h1>{{ post.title }}</h1>
-  <p class="post-date">Posted on {{ post.date_posted.strftime('%B %d, %Y') }}</p>
+    <div class="container">
+        <article>
+            <header class="post-header">
+                <h1>{{ post.title }}</h1>
+                <p class="post-meta">Posted on {{ post.date_posted.strftime('%B %d, %Y') }}</p>
+            </header>
 
-  {% if post.image_file %}
-    <img src="{{ url_for('static', filename='image/' + post.image_file) }}" alt="{{ post.title }}" class="post-image">
-  {% endif %}
+            {% if post.image_file %}
+                <img src="{{ url_for('static', filename='image/' + post.image_file) }}" alt="{{ post.title }}" class="post-image">
+            {% endif %}
 
-  <div class="post-content">
-    {{ post.content | safe }}
-  </div>
+            <div class="post-content">
+                {{ post.content | safe }}
+            </div>
+        </article>
 
-  <div class="share-section">
-    <h3>Share this post</h3>
-    <div class="share-buttons">
-      <a href="https://twitter.com/intent/tweet?url={{ request.url }}" target="_blank">Twitter</a>
-      <a href="https://api.whatsapp.com/send?text={{ request.url }}" target="_blank">WhatsApp</a>
-      <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.url }}" target="_blank">LinkedIn</a>
+        <hr class="section-divider">
+
+        <section class="share-section">
+            <h3 class="section-title">Share This Post</h3>
+            <div class="share-buttons">
+                <a href="https://twitter.com/intent/tweet?url={{ request.url }}&text={{ post.title }}" target="_blank" class="share-btn twitter"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="https://api.whatsapp.com/send?text={{ post.title }}%20{{ request.url }}" target="_blank" class="share-btn whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.url }}" target="_blank" class="share-btn linkedin"><i class="fab fa-linkedin"></i> LinkedIn</a>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <section class="comment-section">
+            <h3 class="section-title">Leave a Comment</h3>
+            <div class="comment-box">
+                <textarea placeholder="Your name"></textarea>
+                <textarea placeholder="Your comment... (Feature coming soon)"></textarea>
+                <button disabled title="Commenting feature is under development.">Post Comment</button>
+            </div>
+        </section>
+
+        {% if related_posts %}
+        <hr class="section-divider">
+        <section class="related-section">
+            <h3 class="section-title">Related Posts</h3>
+            <div class="related-posts-grid">
+                {% for rp in related_posts %}
+                <a href="{{ url_for('view_blog', id=rp.id) }}" class="related-post-card">
+                    <h4>{{ rp.title }}</h4>
+                    <p>{{ rp.content | striptags | truncate(100) }}</p>
+                </a>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
+        <a href="{{ url_for('home') }}#blog" class="back-link">&larr; Back to All Posts</a>
     </div>
-  </div>
-
-  <div class="comment-section">
-    <h3>Leave a Comment</h3>
-    <div class="comment-box">
-      <textarea placeholder="Your comment (not functional yet)"></textarea>
-      <button disabled title="Coming soon!">Post Comment</button>
-    </div>
-  </div>
-
-  {% if related_posts %}
-  <div class="related-section">
-    <h3>Related Posts</h3>
-    <div class="related-posts">
-      {% for rp in related_posts %}
-      <div class="related-post">
-        <h4>{{ rp.title }}</h4>
-        <p>{{ rp.content[:100] }}...</p>
-        <a href="{{ url_for('view_blog', id=rp.id) }}">Read More</a>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-  {% endif %}
-
-  <a href="{{ url_for('home') }}" class="back-link">&larr; Back to Home</a>
 
 </body>
 </html>
