@@ -480,4 +480,55 @@ h2::after {
     opacity: 1;
   }
 }
+.hamburger {
+  display: none;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 10px;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  z-index: 1100;
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  .main-nav {
+    display: none;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background: var(--dark-color);
+    flex-direction: column;
+    z-index: 1001;
+  }
+
+  .main-nav.show {
+    display: flex;
+  }
+
+  .main-nav ul {
+    flex-direction: column;
+    padding: 10px 0;
+  }
+
+  .main-nav li {
+    margin: 10px 0;
+  }
+
+  .main-nav a {
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    display: block;
+  }
+
+  .main-nav a:hover {
+    background: var(--primary-color);
+  }
+}
 
