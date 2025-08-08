@@ -5,12 +5,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>STC | IISER TVM - Innovate, Explore, Discover</title>
-    <!-- Assuming you have a style5.css file in your static folder -->
+    
     <link rel="stylesheet" href="{{ url_for('static', filename='style5.css') }}" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Basic styling for demonstration if style5.css is not available */
+        /* Basic styling for demonstration  */
         body { font-family: 'Poppins', sans-serif; margin: 0; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .main-header { padding: 20px 0; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
@@ -38,17 +38,19 @@
                 <p>Science and Technology Council of IISER Thiruvananthapuram</p>
             </div>
             <nav class="main-nav">
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#updates">Updates</a></li>
-                    <li><a href="#gallery">Gallery</a></li>
-                    <li><a href="#clubs">Clubs</a></li>
-                    <li><a href="#events">Events</a></li>
-                    <li><a href="#blog">Blog</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+    <ul id="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#updates">Updates</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#clubs">Clubs</a></li>
+        <li><a href="#events">Events</a></li>
+        <li><a href="#blog">Blog</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
+
         </div>
     </header>
 
@@ -188,6 +190,12 @@
             <p><a href="{{ url_for('login') }}" style="color: #aaa; text-decoration: none;">Admin Panel</a></p>
         </div>
     </footer>
+<script>
+  function toggleMenu() {
+    var nav = document.getElementById("nav-links");
+    nav.classList.toggle("active");
+  }
+</script>
 
 </body>
 </html>
