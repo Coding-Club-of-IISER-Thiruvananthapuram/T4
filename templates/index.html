@@ -193,6 +193,18 @@
     const nav = document.getElementById("mobileNav");
     nav.classList.toggle("show");
   }
+
+  // Auto-close menu on link click
+  document.addEventListener("DOMContentLoaded", function () {
+    const navLinks = document.querySelectorAll("#mobileNav a");
+    navLinks.forEach(link => {
+      link.addEventListener("click", () => {
+        document.getElementById("mobileNav").classList.remove("show");
+      });
+    });
+  });
+</script>
+
 </script>
 
 </body>
