@@ -1,4 +1,4 @@
-<!-- Save this as: templates/admin.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,17 +23,14 @@
             --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: 'Poppins', sans-serif;
             background-color: var(--main-bg);
             display: flex;
             color: var(--text-dark);
+            flex-direction: row;
         }
 
         /* --- Sidebar --- */
@@ -48,475 +45,441 @@
             flex-shrink: 0;
         }
 
-        .sidebar-header {
-            padding: 20px;
-            text-align: center;
-            border-bottom: 1px solid #34495e;
-        }
-
-        .sidebar-header h2 {
-            margin: 0;
-            font-weight: 600;
-        }
-
-        .sidebar-nav {
-            list-style: none;
-            flex-grow: 1;
-        }
-
+        .sidebar-header { padding: 20px; text-align: center; border-bottom: 1px solid #34495e; }
+        .sidebar-header h2 { margin: 0; font-weight: 600; }
+        .sidebar-nav { list-style: none; flex-grow: 1; }
         .sidebar-nav li a {
-            display: flex;
-            align-items: center;
-            padding: 15px 25px;
-            color: var(--text-light);
-            text-decoration: none;
-            transition: background 0.3s, color 0.3s;
-            font-weight: 500;
+            display: flex; align-items: center; padding: 15px 25px; color: var(--text-light);
+            text-decoration: none; transition: background 0.3s, color 0.3s; font-weight: 500;
         }
-
-        .sidebar-nav li a:hover {
-            background: var(--primary-color);
-        }
-
-        .sidebar-nav li a.active {
-            background: var(--primary-color);
-            font-weight: 600;
-        }
-
-        .sidebar-nav li a i {
-            margin-right: 15px;
-            width: 20px;
-            text-align: center;
-        }
-
-        .logout-link {
-            border-top: 1px solid #34495e;
-        }
+        .sidebar-nav li a:hover { background: var(--primary-color); }
+        .sidebar-nav li a.active { background: var(--primary-color); font-weight: 600; }
+        .sidebar-nav li a i { margin-right: 15px; width: 20px; text-align: center; }
+        .logout-link { border-top: 1px solid #34495e; }
 
         /* --- Main Content --- */
-        .main-content {
-            margin-left: 260px;
-            flex-grow: 1;
-            padding: 30px;
-        }
-
-        .main-content header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .main-content header h1 {
-            font-size: 28px;
-            font-weight: 600;
-        }
+        .main-content { margin-left: 260px; flex-grow: 1; padding: 30px; }
+        .main-content header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .main-content header h1 { font-size: 28px; font-weight: 600; }
 
         /* --- Flash Messages --- */
-        .flash-message {
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            border: 1px solid transparent;
-            color: #fff;
-            font-weight: 500;
-        }
-
-        .flash-success {
-            background-color: var(--success-color);
-        }
-
-        .flash-danger {
-            background-color: var(--danger-color);
-        }
+        .flash-message { padding: 15px; margin-bottom: 20px; border-radius: 5px; border: 1px solid transparent; color: #fff; font-weight: 500; }
+        .flash-success { background-color: var(--success-color); }
+        .flash-danger { background-color: var(--danger-color); }
 
         /* --- Dashboard Sections --- */
-        .dashboard-section {
-            background: var(--card-bg);
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: var(--shadow);
-            margin-bottom: 30px;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .section-header h2 {
-            margin: 0;
-            font-size: 20px;
-            font-weight: 600;
-        }
-
-        .section-header i {
-            margin-right: 10px;
-            color: var(--primary-color);
-        }
+        .dashboard-section { background: var(--card-bg); padding: 25px; border-radius: 8px; box-shadow: var(--shadow); margin-bottom: 30px; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color); }
+        .section-header h2 { margin: 0; font-size: 20px; font-weight: 600; }
+        .section-header i { margin-right: 10px; color: var(--primary-color); }
 
         /* --- Forms --- */
-        details {
-            margin-bottom: 25px;
-        }
-
+        details { margin-bottom: 25px; }
         details summary {
-            cursor: pointer;
-            font-weight: 600;
-            color: var(--primary-color);
-            padding: 10px;
-            border-radius: 5px;
-            background-color: #f8f9fa;
-            border: 1px solid var(--border-color);
-            list-style: none; /* Hide the default triangle */
+            cursor: pointer; font-weight: 600; color: var(--primary-color); padding: 10px; border-radius: 5px;
+            background-color: #f8f9fa; border: 1px solid var(--border-color); list-style: none;
         }
-        details summary::-webkit-details-marker {
-            display: none; /* Hide the default triangle in Chrome/Safari */
-        }
-        details summary::before {
-            content: '\f078'; /* FontAwesome down arrow */
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            margin-right: 10px;
-            transition: transform 0.2s;
-            display: inline-block;
-        }
-        details[open] > summary::before {
-            transform: rotate(-180deg);
-        }
+        details summary::-webkit-details-marker { display: none; }
+        details summary::before { content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900; margin-right: 10px; transition: transform 0.2s; display: inline-block; }
+        details[open] > summary::before { transform: rotate(-180deg); }
+        details[open] summary { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
 
-
-        details[open] summary {
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-        }
-
-        .form-container {
-            padding: 20px;
-            border: 1px solid var(--border-color);
-            border-top: none;
-            border-bottom-left-radius: 5px;
-            border-bottom-right-radius: 5px;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
-        .form-group input[type="text"],
-        .form-group input[type="date"],
-        .form-group textarea,
-        .form-group input[type="file"] {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 5px;
-            font-size: 14px;
-            font-family: 'Poppins', sans-serif;
+        .form-container { padding: 20px; border: 1px solid var(--border-color); border-top: none; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; }
+        .form-group input[type="text"], .form-group input[type="date"], .form-group textarea, .form-group input[type="file"] {
+            width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 5px; font-size: 14px; font-family: 'Poppins', sans-serif;
             transition: border-color 0.3s, box-shadow 0.3s;
         }
-
-        .form-group input:focus, .form-group textarea:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-            outline: none;
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2); outline: none; }
+        textarea { resize: vertical; min-height: 120px; }
 
         /* --- Buttons --- */
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            text-decoration: none;
-            color: white;
-            display: inline-block;
-            text-align: center;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .btn-submit {
-            background-color: var(--primary-color);
-        }
-        .btn-submit:hover {
-            background-color: var(--secondary-color);
-        }
-
-        .btn-delete {
-            background-color: var(--danger-color);
-            padding: 5px 10px;
-            font-size: 13px;
-        }
-        .btn-delete:hover {
-            background-color: var(--danger-hover);
-        }
+        .btn { padding: 10px 20px; border: none; border-radius: 5px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease; text-decoration: none; color: white; display: inline-block; text-align: center; }
+        .btn:hover { transform: translateY(-2px); }
+        .btn-submit { background-color: var(--primary-color); }
+        .btn-submit:hover { background-color: var(--secondary-color); }
+        .btn-delete { background-color: var(--danger-color); padding: 5px 10px; font-size: 13px; }
+        .btn-delete:hover { background-color: var(--danger-hover); }
 
         /* --- Item Lists --- */
-        .item-list {
-            list-style: none;
-            margin-top: 20px;
-        }
+        .item-list { list-style: none; margin-top: 20px; }
+        .item-list li { display: flex; align-items: center; justify-content: space-between; padding: 15px; border-bottom: 1px solid var(--border-color); transition: background-color 0.2s; }
+        .item-list li:last-child { border-bottom: none; }
+        .item-list li:hover { background-color: #f8f9fa; }
+        .item-list span { font-weight: 500; }
 
-        .item-list li {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px;
-            border-bottom: 1px solid var(--border-color);
-            transition: background-color 0.2s;
-        }
-
-        .item-list li:last-child {
-            border-bottom: none;
-        }
-
-        .item-list li:hover {
-            background-color: #f8f9fa;
-        }
-
-        .item-list span {
-            font-weight: 500;
+        /* --- Mobile Responsive --- */
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; position: relative; flex-direction: row; overflow-x: auto; }
+            .main-content { margin-left: 0; padding: 15px; }
         }
     </style>
 </head>
 <body>
 
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <h2>STC Admin Panel</h2>
+<aside class="sidebar">
+    <div class="sidebar-header">
+        <h2>STC Admin Panel</h2>
+    </div>
+    <ul class="sidebar-nav">
+        <li><a href="#manage-updates" class="active"><i class="fas fa-newspaper"></i> Manage Updates</a></li>
+        <li><a href="#manage-clubs"><i class="fas fa-users-cog"></i> Manage Clubs</a></li>
+        <li><a href="#manage-blog"><i class="fas fa-blog"></i> Manage Blog</a></li>
+        <li><a href="#manage-gallery"><i class="fas fa-images"></i> Manage Gallery</a></li>
+        <li><a href="#manage-events"><i class="fas fa-calendar-alt"></i> Manage Events</a></li>
+    </ul>
+    <a href="{{ url_for('logout') }}" class="sidebar-nav logout-link"><li><i class="fas fa-sign-out-alt"></i> Logout</li></a>
+</aside>
+
+<main class="main-content">
+<header><h1>Dashboard</h1></header>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="flash-message flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<!-- Manage Updates Section -->
+<section class="dashboard-section" id="manage-updates">
+    <div class="section-header">
+        <h2><i class="fas fa-newspaper"></i> Manage Updates & News</h2>
+    </div>
+    <details>
+        <summary>Add New Update</summary>
+        <div class="form-container">
+            <form method="POST" action="{{ url_for('add_update') }}" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="update-title">Title</label>
+                    <input type="text" id="update-title" name="update-title" required>
+                </div>
+                <div class="form-group">
+                    <label for="update-description">Description</label>
+                    <textarea id="update-description" name="update-description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="update-date">Date</label>
+                    <input type="date" id="update-date" name="update-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="update-image">Image (Optional)</label>
+                    <input type="file" id="update-image" name="update-image" onchange="showFileSize(this)">
+                    <small id="update-image-size"></small>
+                </div>
+                <button type="submit" class="btn btn-submit">Add Update</button>
+            </form>
         </div>
-        <ul class="sidebar-nav">
-            <li><a href="#manage-updates" class="active"><i class="fas fa-newspaper"></i> Manage Updates</a></li>
-            <li><a href="#manage-clubs"><i class="fas fa-users-cog"></i> Manage Clubs</a></li>
-            <li><a href="#manage-blog"><i class="fas fa-blog"></i> Manage Blog</a></li>
-            <li><a href="#manage-gallery"><i class="fas fa-images"></i> Manage Gallery</a></li>
-            <li><a href="#manage-events"><i class="fas fa-calendar-alt"></i> Manage Events</a></li>
-        </ul>
-        <a href="{{ url_for('logout') }}" class="sidebar-nav logout-link">
-            <li><i class="fas fa-sign-out-alt"></i> Logout</li>
-        </a>
-    </aside>
+    </details>
 
-    <main class="main-content">
-        <header>
-            <h1>Dashboard</h1>
-        </header>
-
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="flash-message flash-{{ category }}">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-
-        <!-- Manage Updates Section -->
-        <section class="dashboard-section" id="manage-updates">
-            <div class="section-header">
-                <h2><i class="fas fa-newspaper"></i> Manage Updates & News</h2>
-            </div>
-            <details>
-                <summary>Add New Update</summary>
-                <div class="form-container">
-                    <form method="POST" action="{{ url_for('add_update') }}" enctype="multipart/form-data">
-                        <div class="form-group"><label for="update-title">Title</label><input type="text" id="update-title" name="update-title" required></div>
-                        <div class="form-group"><label for="update-description">Description</label><textarea id="update-description" name="update-description" required></textarea></div>
-                        <div class="form-group"><label for="update-date">Date</label><input type="date" id="update-date" name="update-date" required></div>
-                        <div class="form-group"><label for="update-image">Image (Optional)</label><input type="file" id="update-image" name="update-image"></div>
-                        <button type="submit" class="btn btn-submit">Add Update</button>
-                    </form>
+    <ul class="item-list">
+        {% for update in updates %}
+        <li>
+            <span>{{ update.title }} ({{ update.date }})</span>
+            <a href="{{ url_for('edit_item', item_type='update', id=update.id) }}" class="btn btn-submit">Edit</a>
+            <form method="POST" action="{{ url_for('delete_item', item_type='update', id=update.id) }}">
+                <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this update?');">Delete</button>
+            </form>
+        </li>
+        {% else %}
+        <li>No updates found.</li>
+        {% endfor %}
+    </ul>
+</section>
+<!-- Manage Clubs Section -->
+<section class="dashboard-section" id="manage-clubs">
+    <div class="section-header">
+        <h2><i class="fas fa-users-cog"></i> Manage Clubs</h2>
+    </div>
+    <details>
+        <summary>Add New Club</summary>
+        <div class="form-container">
+            <form method="POST" action="{{ url_for('add_club') }}" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="club-name">Club Name</label>
+                    <input type="text" id="club-name" name="club-name" required>
                 </div>
-            </details>
-            <ul class="item-list">
-                {% for update in updates %}
-                <li>
-                    <span>{{ update.title }} ({{ update.date }})</span>
-                    <form method="POST" action="{{ url_for('delete_item', item_type='update', id=update.id) }}">
-                        <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this update?');">Delete</button>
-                    </form>
-                </li>
-                {% else %}
-                <li>No updates found.</li>
-                {% endfor %}
-            </ul>
-        </section>
-
-        <!-- Manage Clubs Section -->
-        <section class="dashboard-section" id="manage-clubs">
-            <div class="section-header">
-                <h2><i class="fas fa-users-cog"></i> Manage Clubs</h2>
-            </div>
-            <details>
-                <summary>Add New Club</summary>
-                <div class="form-container">
-                    <form method="POST" action="{{ url_for('add_club') }}" enctype="multipart/form-data">
-                        <div class="form-group"><label for="club-name">Club Name</label><input type="text" id="club-name" name="club-name" required></div>
-                        <div class="form-group"><label for="club-description">Description</label><textarea id="club-description" name="club-description" required></textarea></div>
-                        <div class="form-group"><label for="club-image">Image (Optional)</label><input type="file" id="club-image" name="club-image"></div>
-                        <button type="submit" class="btn btn-submit">Add Club</button>
-                    </form>
+                <div class="form-group">
+                    <label for="club-description">Description</label>
+                    <textarea id="club-description" name="club-description" required></textarea>
                 </div>
-            </details>
-            <ul class="item-list">
-                {% for club in clubs %}
-                <li>
-                    <span>{{ club.name }}</span>
-                    <form method="POST" action="{{ url_for('delete_item', item_type='club', id=club.id) }}">
-                        <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this club?');">Delete</button>
-                    </form>
-                </li>
-                {% else %}
-                <li>No clubs found.</li>
-                {% endfor %}
-            </ul>
-        </section>
-        
-        <!-- Manage Blog Section -->
-        <section class="dashboard-section" id="manage-blog">
-            <div class="section-header">
-                <h2><i class="fas fa-blog"></i> Manage Blog</h2>
-            </div>
-            <details>
-                <summary>Add New Blog Post</summary>
-                <div class="form-container">
-                     <form method="POST" action="{{ url_for('add_blog') }}" enctype="multipart/form-data">
-                        <div class="form-group"><label for="blog-title">Post Title</label><input type="text" id="blog-title" name="blog-title" required></div>
-                        <div class="form-group"><label for="blog-content">Content</label><textarea id="blog-content" name="blog-content" required></textarea></div>
-                        <div class="form-group"><label for="blog-image">Header Image (Optional)</label><input type="file" id="blog-image" name="blog-image"></div>
-                        <button type="submit" class="btn btn-submit">Publish Post</button>
-                    </form>
+                <div class="form-group">
+                    <label for="club-image">Image (Optional)</label>
+                    <input type="file" id="club-image" name="club-image" onchange="showFileSize(this)">
+                    <small id="club-image-size"></small>
                 </div>
-            </details>
-            <ul class="item-list">
-                {% for post in posts %}
-                <li>
-                    <span>{{ post.title }}</span>
-                    <form method="POST" action="{{ url_for('delete_item', item_type='blog', id=post.id) }}">
-                        <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this post?');">Delete</button>
-                    </form>
-                </li>
-                {% else %}
-                <li>No blog posts found.</li>
-                {% endfor %}
-            </ul>
-        </section>
+                <button type="submit" class="btn btn-submit">Add Club</button>
+            </form>
+        </div>
+    </details>
 
-        <!-- Manage Gallery Section -->
-        <section class="dashboard-section" id="manage-gallery">
-            <div class="section-header">
-                <h2><i class="fas fa-images"></i> Manage Gallery</h2>
-            </div>
-             <details>
-                <summary>Add New Image</summary>
-                <div class="form-container">
-                    <form method="POST" action="{{ url_for('add_gallery_image') }}" enctype="multipart/form-data">
-                        <div class="form-group"><label for="gallery-image">Upload Image</label><input type="file" id="gallery-image" name="gallery-image" required></div>
-                        <div class="form-group"><label for="gallery-caption">Caption (Optional)</label><input type="text" id="gallery-caption" name="gallery-caption"></div>
-                        <button type="submit" class="btn btn-submit">Add Image</button>
-                    </form>
+    <ul class="item-list">
+        {% for club in clubs %}
+        <li>
+            <span>{{ club.name }}</span>
+            <a href="{{ url_for('edit_item', item_type='club', id=club.id) }}" class="btn btn-submit">Edit</a>
+            <form method="POST" action="{{ url_for('delete_item', item_type='club', id=club.id) }}">
+                <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this club?');">Delete</button>
+            </form>
+        </li>
+        {% else %}
+        <li>No clubs found.</li>
+        {% endfor %}
+    </ul>
+</section>
+
+<!-- Manage Blog Section -->
+<section class="dashboard-section" id="manage-blog">
+    <div class="section-header">
+        <h2><i class="fas fa-blog"></i> Manage Blog</h2>
+    </div>
+    <details>
+        <summary>Add New Blog Post</summary>
+        <div class="form-container">
+            <form method="POST" action="{{ url_for('add_blog') }}" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="blog-title">Post Title</label>
+                    <input type="text" id="blog-title" name="blog-title" required>
                 </div>
-            </details>
-            <ul class="item-list">
-                {% for image in gallery_images %}
-                <li>
-                    <span>{{ image.filename }} - <i>{{ image.caption or 'No caption' }}</i></span>
-                    <form method="POST" action="{{ url_for('delete_item', item_type='gallery', id=image.id) }}">
-                        <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this image?');">Delete</button>
-                    </form>
-                </li>
-                {% else %}
-                <li>No gallery images found.</li>
-                {% endfor %}
-            </ul>
-        </section>
-
-        <!-- Manage Events Section -->
-        <section class="dashboard-section" id="manage-events">
-            <div class="section-header">
-                <h2><i class="fas fa-calendar-alt"></i> Manage Events</h2>
-            </div>
-             <details>
-                <summary>Add New Event</summary>
-                <div class="form-container">
-                    <form method="POST" action="{{ url_for('add_event') }}">
-                        <div class="form-group"><label for="event-title">Event Title</label><input type="text" id="event-title" name="event-title" required></div>
-                        <div class="form-group"><label for="event-description">Description</label><textarea id="event-description" name="event-description" required></textarea></div>
-                        <div class="form-group"><label for="event-date">Date</label><input type="text" id="event-date" name="event-date" placeholder="e.g., October 25-27, 2025" required></div>
-                        <div class="form-group"><label for="event-location">Location</label><input type="text" id="event-location" name="event-location" required></div>
-                        <button type="submit" class="btn btn-submit">Add Event</button>
-                    </form>
+                <div class="form-group">
+                    <label for="blog-content">Content</label>
+                    <textarea id="blog-content" name="blog-content" required></textarea>
                 </div>
-            </details>
-            <ul class="item-list">
-                {% for event in events %}
-                <li>
-                    <span>{{ event.title }} - {{ event.date }}</span>
-                    <form method="POST" action="{{ url_for('delete_item', item_type='event', id=event.id) }}">
-                        <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this event?');">Delete</button>
-                    </form>
-                </li>
-                {% else %}
-                <li>No events found.</li>
-                {% endfor %}
-            </ul>
-        </section>
-    </main>
+                <div class="form-group">
+                    <label for="blog-image">Header Image (Optional)</label>
+                    <input type="file" id="blog-image" name="blog-image" onchange="showFileSize(this)">
+                    <small id="blog-image-size"></small>
+                </div>
+                <button type="submit" class="btn btn-submit">Publish Post</button>
+            </form>
+        </div>
+    </details>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const sections = document.querySelectorAll('.dashboard-section');
-            const navLinks = document.querySelectorAll('.sidebar-nav a');
+    <ul class="item-list">
+        {% for post in posts %}
+        <li>
+            <span>{{ post.title }}</span>
+            <a href="{{ url_for('edit_item', item_type='blog', id=post.id) }}" class="btn btn-submit">Edit</a>
+            <form method="POST" action="{{ url_for('delete_item', item_type='blog', id=post.id) }}">
+                <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this post?');">Delete</button>
+            </form>
+        </li>
+        {% else %}
+        <li>No blog posts found.</li>
+        {% endfor %}
+    </ul>
+</section>
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        navLinks.forEach(link => {
-                            link.classList.remove('active');
-                            if (link.getAttribute('href') === `#${entry.target.id}`) {
-                                link.classList.add('active');
-                            }
-                        });
+<script>
+function showFileSize(input) {
+    const file = input.files[0];
+    const sizeElement = input.nextElementSibling;
+    if (file && sizeElement) {
+        sizeElement.textContent = `File size: ${(file.size / 1024).toFixed(2)} KB`;
+    }
+}
+</script>
+<!-- Manage Gallery Section -->
+<section class="dashboard-section" id="manage-gallery">
+    <div class="section-header">
+        <h2><i class="fas fa-images"></i> Manage Gallery</h2>
+    </div>
+    <details>
+        <summary>Add New Image</summary>
+        <div class="form-container">
+            <form method="POST" action="{{ url_for('add_gallery_image') }}" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="gallery-image">Upload Image</label>
+                    <input type="file" id="gallery-image" name="gallery-image" required onchange="showFileSize(this)">
+                    <small id="gallery-image-size"></small>
+                </div>
+                <div class="form-group">
+                    <label for="gallery-caption">Caption (Optional)</label>
+                    <input type="text" id="gallery-caption" name="gallery-caption">
+                </div>
+                <button type="submit" class="btn btn-submit">Add Image</button>
+            </form>
+        </div>
+    </details>
+
+    <ul class="item-list">
+        {% for image in gallery_images %}
+        <li>
+            <span>{{ image.filename }} - <i>{{ image.caption or 'No caption' }}</i></span>
+            <a href="{{ url_for('edit_item', item_type='gallery', id=image.id) }}" class="btn btn-submit">Edit</a>
+            <form method="POST" action="{{ url_for('delete_item', item_type='gallery', id=image.id) }}">
+                <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this image?');">Delete</button>
+            </form>
+        </li>
+        {% else %}
+        <li>No gallery images found.</li>
+        {% endfor %}
+    </ul>
+</section>
+
+<!-- Manage Events Section -->
+<section class="dashboard-section" id="manage-events">
+    <div class="section-header">
+        <h2><i class="fas fa-calendar-alt"></i> Manage Events</h2>
+    </div>
+    <details>
+        <summary>Add New Event</summary>
+        <div class="form-container">
+            <form method="POST" action="{{ url_for('add_event') }}" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="event-title">Event Title</label>
+                    <input type="text" id="event-title" name="event-title" required>
+                </div>
+                <div class="form-group">
+                    <label for="event-description">Description</label>
+                    <textarea id="event-description" name="event-description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="event-date">Date</label>
+                    <input type="text" id="event-date" name="event-date" placeholder="e.g., October 25-27, 2025" required>
+                </div>
+                <div class="form-group">
+                    <label for="event-location">Location</label>
+                    <input type="text" id="event-location" name="event-location" required>
+                </div>
+                <div class="form-group">
+                    <label for="event-image">Event Image (Optional)</label>
+                    <input type="file" id="event-image" name="event-image" onchange="showFileSize(this)">
+                    <small id="event-image-size"></small>
+                </div>
+                <button type="submit" class="btn btn-submit">Add Event</button>
+            </form>
+        </div>
+    </details>
+
+    <ul class="item-list">
+        {% for event in events %}
+        <li>
+            <span>{{ event.title }} - {{ event.date }}</span>
+            <a href="{{ url_for('edit_item', item_type='event', id=event.id) }}" class="btn btn-submit">Edit</a>
+            <form method="POST" action="{{ url_for('delete_item', item_type='event', id=event.id) }}">
+                <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this event?');">Delete</button>
+            </form>
+        </li>
+        {% else %}
+        <li>No events found.</li>
+        {% endfor %}
+    </ul>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const sections = document.querySelectorAll('.dashboard-section');
+    const navLinks = document.querySelectorAll('.sidebar-nav a');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${entry.target.id}`) {
+                        link.classList.add('active');
                     }
                 });
-            }, { rootMargin: '-40% 0px -60% 0px' });
-
-            sections.forEach(section => {
-                observer.observe(section);
-            });
-
-            navLinks.forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    if(this.getAttribute('href').startsWith('#')) {
-                        e.preventDefault();
-                        document.querySelector(this.getAttribute('href')).scrollIntoView({
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
+            }
         });
-    </script>
+    }, { rootMargin: '-40% 0px -60% 0px' });
 
+    sections.forEach(section => { observer.observe(section); });
+
+    navLinks.forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            if(this.getAttribute('href').startsWith('#')) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+});
+</script>
+<!-- Mobile Responsive Styles -->
+<style>
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        flex-direction: row;
+        overflow-x: auto;
+    }
+    .sidebar-nav {
+        display: flex;
+        flex-direction: row;
+    }
+    .sidebar-nav li a {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+    .main-content {
+        margin-left: 0;
+        padding: 15px;
+    }
+    .dashboard-section {
+        padding: 15px;
+    }
+    .form-container {
+        padding: 15px;
+    }
+    .item-list li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .item-list li form, .item-list li a {
+        margin-top: 5px;
+    }
+}
+</style>
+
+<script>
+// File size display for any file input
+function showFileSize(input) {
+    const file = input.files[0];
+    const sizeElement = input.nextElementSibling;
+    if (file && sizeElement) {
+        sizeElement.textContent = `File size: ${(file.size / 1024).toFixed(2)} KB`;
+    }
+}
+
+// Smooth scrolling and active section highlighting
+document.addEventListener('DOMContentLoaded', () => {
+    const sections = document.querySelectorAll('.dashboard-section');
+    const navLinks = document.querySelectorAll('.sidebar-nav a');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${entry.target.id}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-40% 0px -60% 0px' });
+
+    sections.forEach(section => observer.observe(section));
+
+    navLinks.forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            if(this.getAttribute('href').startsWith('#')) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+});
+</script>
+
+</main>
 </body>
 </html>
+
