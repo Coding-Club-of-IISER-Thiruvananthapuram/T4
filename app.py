@@ -1,4 +1,4 @@
-# Save this as: app.py
+
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from functools import wraps
@@ -9,10 +9,15 @@ from werkzeug.utils import secure_filename
 # --- App & Database Configuration ---
 app = Flask(__name__)
 app.secret_key = 'your_very_secret_key_change_this_later'
+
 basedir = os.path.abspath(os.path.dirname(__file__))
+UPLOAD_FOLDER = os.path.join(basedir, 'static/image')
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'database.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['UPLOAD_FOLDER'] = os.path.join(basedir, 'static/image')
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
 
 db = SQLAlchemy(app)
@@ -54,10 +59,11 @@ class Event(db.Model):
     description = db.Column(db.Text, nullable=False)
     date = db.Column(db.String(50))
     location = db.Column(db.String(100))
+    image_file = db.Column(db.String(100), nullable=True)  # New column for event image
 
 # --- Authentication ---
 ADMIN_USERNAME = 'admin'
-ADMIN_PASSWORD = 'password123' # In a real app, use a more secure method
+ADMIN_PASSWORD = 'password123'  # Change in production
 
 def login_required(f):
     """Decorator to ensure a user is logged in."""
@@ -68,7 +74,6 @@ def login_required(f):
             return redirect(url_for('login'))
         return f(*args, **kwargs)
     return decorated_function
-
 # --- Main Routes ---
 @app.route('/')
 def home():
@@ -118,7 +123,6 @@ def admin_dashboard():
     gallery_images = GalleryImage.query.order_by(GalleryImage.id.desc()).all()
     events = Event.query.order_by(Event.id.desc()).all()
     return render_template('admin.html', updates=updates, clubs=clubs, posts=posts, gallery_images=gallery_images, events=events)
-
 # --- ADD CONTENT ROUTES ---
 @app.route('/admin/update/add', methods=['POST'])
 @login_required
@@ -193,19 +197,25 @@ def add_gallery_image():
 @app.route('/admin/event/add', methods=['POST'])
 @login_required
 def add_event():
+    image_file = request.files.get('event-image')  # New field for event image
+    filename = None
+    if image_file and allowed_file(image_file.filename):
+        filename = secure_filename(image_file.filename)
+        image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
     new_event = Event(
         title=request.form['event-title'],
         description=request.form['event-description'],
         date=request.form['event-date'],
-        location=request.form['event-location']
+        location=request.form['event-location'],
+        image_file=filename
     )
     db.session.add(new_event)
     db.session.commit()
     flash('New event has been added successfully!', 'success')
     return redirect(url_for('admin_dashboard'))
-
-# --- DELETE CONTENT ROUTE (CORRECTED) ---
-@app.route('/delete/<item_type>/<int:id>', methods=['POST']) # Added methods=['POST']
+# --- DELETE CONTENT ROUTE ---
+@app.route('/delete/<item_type>/<int:id>', methods=['POST'])
 @login_required
 def delete_item(item_type, id):
     """Deletes an item from the database permanently."""
@@ -221,20 +231,19 @@ def delete_item(item_type, id):
         Model = model_map[item_type]
         obj_to_delete = Model.query.get_or_404(id)
 
-        # If the object has an image, try to delete it from the filesystem
+        # Delete associated image from filesystem if exists
         image_path = None
         if hasattr(obj_to_delete, 'image_file') and obj_to_delete.image_file:
             image_path = os.path.join(app.config['UPLOAD_FOLDER'], obj_to_delete.image_file)
-        elif hasattr(obj_to_delete, 'filename'): # For GalleryImage
+        elif hasattr(obj_to_delete, 'filename'):
             image_path = os.path.join(app.config['UPLOAD_FOLDER'], obj_to_delete.filename)
-        
+
         if image_path and os.path.exists(image_path):
             try:
                 os.remove(image_path)
             except OSError as e:
                 flash(f"Error deleting image file: {e}", "danger")
 
-        # Delete the record from the database and commit the change
         db.session.delete(obj_to_delete)
         db.session.commit()
         flash(f'{item_type.capitalize()} has been deleted successfully.', 'success')
@@ -243,11 +252,94 @@ def delete_item(item_type, id):
         
     return redirect(url_for('admin_dashboard'))
 
-# --- Run the App ---
-if __name__ == "__main__":
+# --- EDIT CONTENT ROUTES ---
+@app.route('/edit/<item_type>/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_item(item_type, id):
+    """Allows admin to edit any content item."""
+    model_map = {
+        'update': Update,
+        'club': Club,
+        'gallery': GalleryImage,
+        'event': Event,
+        'blog': BlogPost
+    }
+
+    if item_type not in model_map:
+        flash('Invalid item type for editing.', 'danger')
+        return redirect(url_for('admin_dashboard'))
+
+    Model = model_map[item_type]
+    item = Model.query.get_or_404(id)
+
+    if request.method == 'POST':
+        # Handle edits based on type
+        if item_type == 'update':
+            item.title = request.form['update-title']
+            item.description = request.form['update-description']
+            item.date = request.form['update-date']
+            image_file = request.files.get('update-image')
+        elif item_type == 'club':
+            item.name = request.form['club-name']
+            item.description = request.form['club-description']
+            image_file = request.files.get('club-image')
+        elif item_type == 'blog':
+            item.title = request.form['blog-title']
+            item.content = request.form['blog-content']
+            image_file = request.files.get('blog-image')
+        elif item_type == 'gallery':
+            item.caption = request.form.get('gallery-caption')
+            image_file = request.files.get('gallery-image')
+        elif item_type == 'event':
+            item.title = request.form['event-title']
+            item.description = request.form['event-description']
+            item.date = request.form['event-date']
+            item.location = request.form['event-location']
+            image_file = request.files.get('event-image')
+        else:
+            image_file = None
+
+        # Save new image if uploaded
+        if image_file and allowed_file(image_file.filename):
+            filename = secure_filename(image_file.filename)
+            image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            # Remove old image
+            if hasattr(item, 'image_file') and item.image_file:
+                old_path = os.path.join(app.config['UPLOAD_FOLDER'], item.image_file)
+                if os.path.exists(old_path):
+                    os.remove(old_path)
+            elif hasattr(item, 'filename') and item.filename:
+                old_path = os.path.join(app.config['UPLOAD_FOLDER'], item.filename)
+                if os.path.exists(old_path):
+                    os.remove(old_path)
+
+            if hasattr(item, 'image_file'):
+                item.image_file = filename
+            else:
+                item.filename = filename
+
+        db.session.commit()
+        flash(f'{item_type.capitalize()} has been updated successfully!', 'success')
+        return redirect(url_for('admin_dashboard'))
+
+    # Render edit form template (can use same as add form with prefilled values)
+    return render_template('edit_item.html', item=item, item_type=item_type)
+# --- UTILITY FUNCTIONS ---
+def init_db():
+    """Initialize the database with all tables."""
     with app.app_context():
-        # This will create the database and tables if they don't exist
         db.create_all()
-    # Use environment variable for port, default to 5000
+        print("Database initialized successfully.")
+
+# --- RUN THE APP ---
+if __name__ == "__main__":
+    # Ensure upload folder exists
+    if not os.path.exists(app.config['UPLOAD_FOLDER']):
+        os.makedirs(app.config['UPLOAD_FOLDER'])
+    
+    # Initialize database
+    init_db()
+
+    # Run Flask app
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
