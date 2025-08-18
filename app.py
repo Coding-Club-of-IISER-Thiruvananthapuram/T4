@@ -59,8 +59,7 @@ class Event(db.Model):
     description = db.Column(db.Text, nullable=False)
     date = db.Column(db.String(50))
     location = db.Column(db.String(100))
-    image_file = db.Column(db.String(100), nullable=True)  # New column for event image
-
+    
 # --- Authentication ---
 ADMIN_USERNAME = 'admin'
 ADMIN_PASSWORD = 'password123'  # Change in production
@@ -194,21 +193,15 @@ def add_gallery_image():
         flash('Invalid file type for gallery image.', 'danger')
     return redirect(url_for('admin_dashboard'))
 
+
 @app.route('/admin/event/add', methods=['POST'])
 @login_required
 def add_event():
-    image_file = request.files.get('event-image')  # New field for event image
-    filename = None
-    if image_file and allowed_file(image_file.filename):
-        filename = secure_filename(image_file.filename)
-        image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-
     new_event = Event(
         title=request.form['event-title'],
         description=request.form['event-description'],
         date=request.form['event-date'],
-        location=request.form['event-location'],
-        image_file=filename
+        location=request.form['event-location']
     )
     db.session.add(new_event)
     db.session.commit()
@@ -290,12 +283,12 @@ def edit_item(item_type, id):
         elif item_type == 'gallery':
             item.caption = request.form.get('gallery-caption')
             image_file = request.files.get('gallery-image')
+        # AFTER
         elif item_type == 'event':
             item.title = request.form['event-title']
             item.description = request.form['event-description']
             item.date = request.form['event-date']
             item.location = request.form['event-location']
-            image_file = request.files.get('event-image')
         else:
             image_file = None
 
