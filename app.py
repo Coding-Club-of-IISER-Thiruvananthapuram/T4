@@ -1,4 +1,3 @@
-
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from functools import wraps
@@ -61,8 +60,9 @@ class Event(db.Model):
     location = db.Column(db.String(100))
     
 # --- Authentication ---
-ADMIN_USERNAME = 'admin'
-ADMIN_PASSWORD = 'password123'  # Change in production
+# Securely read credentials from environment variables
+ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME')
+ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD')
 
 def login_required(f):
     """Decorator to ensure a user is logged in."""
@@ -73,6 +73,7 @@ def login_required(f):
             return redirect(url_for('login'))
         return f(*args, **kwargs)
     return decorated_function
+
 # --- Main Routes ---
 @app.route('/')
 def home():
@@ -96,7 +97,8 @@ def view_blog(id):
 def login():
     """Handles admin login."""
     if request.method == 'POST':
-        if request.form['username'] == ADMIN_USERNAME and request.form['password'] == ADMIN_PASSWORD:
+        # Securely check credentials against environment variables
+        if ADMIN_USERNAME and request.form['username'] == ADMIN_USERNAME and ADMIN_PASSWORD and request.form['password'] == ADMIN_PASSWORD:
             session['logged_in'] = True
             flash('You were successfully logged in!', 'success')
             return redirect(url_for('admin_dashboard'))
@@ -122,6 +124,7 @@ def admin_dashboard():
     gallery_images = GalleryImage.query.order_by(GalleryImage.id.desc()).all()
     events = Event.query.order_by(Event.id.desc()).all()
     return render_template('admin.html', updates=updates, clubs=clubs, posts=posts, gallery_images=gallery_images, events=events)
+
 # --- ADD CONTENT ROUTES ---
 @app.route('/admin/update/add', methods=['POST'])
 @login_required
@@ -143,7 +146,6 @@ def add_update():
     return redirect(url_for('admin_dashboard'))
 
 @app.route('/admin/club/add', methods=['POST'])
-
 @login_required
 def add_club():
     name = request.form['club-name']
@@ -194,7 +196,6 @@ def add_gallery_image():
         flash('Invalid file type for gallery image.', 'danger')
     return redirect(url_for('admin_dashboard'))
 
-
 @app.route('/admin/event/add', methods=['POST'])
 @login_required
 def add_event():
@@ -208,6 +209,7 @@ def add_event():
     db.session.commit()
     flash('New event has been added successfully!', 'success')
     return redirect(url_for('admin_dashboard'))
+
 # --- DELETE CONTENT ROUTE ---
 @app.route('/delete/<item_type>/<int:id>', methods=['POST'])
 @login_required
@@ -267,6 +269,7 @@ def edit_item(item_type, id):
     item = Model.query.get_or_404(id)
 
     if request.method == 'POST':
+        image_file = None # Initialize image_file to None
         # Handle edits based on type
         if item_type == 'update':
             item.title = request.form['update-title']
@@ -284,14 +287,12 @@ def edit_item(item_type, id):
         elif item_type == 'gallery':
             item.caption = request.form.get('gallery-caption')
             image_file = request.files.get('gallery-image')
-        # AFTER
         elif item_type == 'event':
             item.title = request.form['event-title']
             item.description = request.form['event-description']
             item.date = request.form['event-date']
             item.location = request.form['event-location']
-        else:
-            image_file = None
+            # No image_file for events
 
         # Save new image if uploaded
         if image_file and allowed_file(image_file.filename):
@@ -316,8 +317,9 @@ def edit_item(item_type, id):
         flash(f'{item_type.capitalize()} has been updated successfully!', 'success')
         return redirect(url_for('admin_dashboard'))
 
-    # Render edit form template (can use same as add form with prefilled values)
+    # Render edit form template
     return render_template('edit_item.html', item=item, item_type=item_type)
+
 # --- UTILITY FUNCTIONS ---
 def init_db():
     """Initialize the database with all tables."""
@@ -331,9 +333,10 @@ if __name__ == "__main__":
     if not os.path.exists(app.config['UPLOAD_FOLDER']):
         os.makedirs(app.config['UPLOAD_FOLDER'])
     
-    # Initialize database
-    init_db()
+    # Initialize database if it doesn't exist
+    with app.app_context():
+        db.create_all()
 
     # Run Flask app
     port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port, debug=True)
+    app.run(host="0.0.0.0", port=port, debug=False) # Set debug=False for production
