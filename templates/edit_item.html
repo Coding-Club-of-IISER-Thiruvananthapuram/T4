@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit {{ item_type.capitalize() }} | STC Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --main-bg: #f4f6f9;
+            --card-bg: #ffffff;
+            --text-dark: #34495e;
+            --border-color: #dfe4ea;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--main-bg);
+            color: var(--text-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            width: 100%;
+            max-width: 700px;
+            background: var(--card-bg);
+            padding: 30px 40px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+        h1 { text-align: center; margin-bottom: 25px; font-weight: 600; color: var(--primary-color); }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; }
+        .form-group input[type="text"], .form-group input[type="date"], .form-group textarea, .form-group input[type="file"] {
+            width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 5px; font-size: 14px;
+            font-family: 'Poppins', sans-serif; transition: border-color 0.3s, box-shadow 0.3s; box-sizing: border-box;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2); outline: none;
+        }
+        textarea { resize: vertical; min-height: 120px; }
+        .btn {
+            padding: 12px 25px; border: none; border-radius: 5px; font-size: 16px; font-weight: 600; cursor: pointer;
+            transition: background-color 0.3s ease; text-decoration: none; color: white; display: block;
+            width: 100%; text-align: center; background-color: var(--primary-color);
+        }
+        .btn:hover { background-color: var(--secondary-color); }
+        .current-image { max-width: 150px; margin-top: 10px; border-radius: 5px; display: block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit {{ item_type.capitalize() }}</h1>
+
+        <form method="POST" enctype="multipart/form-data">
+
+            {% if item_type == 'update' %}
+                <div class="form-group">
+                    <label for="update-title">Title</label>
+                    <input type="text" id="update-title" name="update-title" value="{{ item.title }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="update-description">Description</label>
+                    <textarea id="update-description" name="update-description" required>{{ item.description }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="update-date">Date</label>
+                    <input type="date" id="update-date" name="update-date" value="{{ item.date }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="update-image">Change Image (Optional)</label>
+                    {% if item.image_file %}
+                        <p>Current: <img src="{{ url_for('static', filename='image/' + item.image_file) }}" alt="Current Image" class="current-image"></p>
+                    {% endif %}
+                    <input type="file" id="update-image" name="update-image">
+                </div>
+            {% endif %}
+
+            {% if item_type == 'club' %}
+                <div class="form-group">
+                    <label for="club-name">Club Name</label>
+                    <input type="text" id="club-name" name="club-name" value="{{ item.name }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="club-description">Description</label>
+                    <textarea id="club-description" name="club-description" required>{{ item.description }}</textarea>
+                </div>
+                 <div class="form-group">
+                    <label for="club-image">Change Image (Optional)</label>
+                    {% if item.image_file %}
+                        <p>Current: <img src="{{ url_for('static', filename='image/' + item.image_file) }}" alt="Current Image" class="current-image"></p>
+                    {% endif %}
+                    <input type="file" id="club-image" name="club-image">
+                </div>
+            {% endif %}
+
+            {% if item_type == 'blog' %}
+                <div class="form-group">
+                    <label for="blog-title">Post Title</label>
+                    <input type="text" id="blog-title" name="blog-title" value="{{ item.title }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="blog-content">Content</label>
+                    <textarea id="blog-content" name="blog-content" required>{{ item.content }}</textarea>
+                </div>
+                 <div class="form-group">
+                    <label for="blog-image">Change Header Image (Optional)</label>
+                    {% if item.image_file %}
+                        <p>Current: <img src="{{ url_for('static', filename='image/' + item.image_file) }}" alt="Current Image" class="current-image"></p>
+                    {% endif %}
+                    <input type="file" id="blog-image" name="blog-image">
+                </div>
+            {% endif %}
+
+            {% if item_type == 'gallery' %}
+                <div class="form-group">
+                    <label for="gallery-caption">Caption</label>
+                    <input type="text" id="gallery-caption" name="gallery-caption" value="{{ item.caption or '' }}">
+                </div>
+                <div class="form-group">
+                    <label for="gallery-image">Replace Image (Optional)</label>
+                     {% if item.filename %}
+                        <p>Current: <img src="{{ url_for('static', filename='image/' + item.filename) }}" alt="Current Image" class="current-image"></p>
+                    {% endif %}
+                    <input type="file" id="gallery-image" name="gallery-image">
+                </div>
+            {% endif %}
+
+            {% if item_type == 'event' %}
+                <div class="form-group">
+                    <label for="event-title">Event Title</label>
+                    <input type="text" id="event-title" name="event-title" value="{{ item.title }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="event-description">Description</label>
+                    <textarea id="event-description" name="event-description" required>{{ item.description }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="event-date">Date</label>
+                    <input type="text" id="event-date" name="event-date" value="{{ item.date }}" required>
+                </div>
+                 <div class="form-group">
+                    <label for="event-location">Location</label>
+                    <input type="text" id="event-location" name="event-location" value="{{ item.location }}" required>
+                </div>
+                 <div class="form-group">
+                    <label for="event-image">Change Image (Optional)</label>
+                    {% if item.image_file %}
+                        <p>Current: <img src="{{ url_for('static', filename='image/' + item.image_file) }}" alt="Current Image" class="current-image"></p>
+                    {% endif %}
+                    <input type="file" id="event-image" name="event-image">
+                </div>
+            {% endif %}
+
+            <button type="submit" class="btn">Save Changes</button>
+        </form>
+    </div>
+</body>
+</html>
