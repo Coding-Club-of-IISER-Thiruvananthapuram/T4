@@ -143,6 +143,9 @@ def add_update():
     return redirect(url_for('admin_dashboard'))
 
 @app.route('/admin/club/add', methods=['POST'])
+@app.route('/test')
+def test_route():
+    return "Deployment is working!"
 @login_required
 def add_club():
     name = request.form['club-name']
